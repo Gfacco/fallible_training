@@ -3,7 +3,6 @@ module fallible_string_m
   use iso_varying_string, only: varying_string, assignment(=)
   use rojff, only: &
       fallible_json_value_t, &
-      json_element_t, &
       json_string_t, &
       json_value_t
 
@@ -25,7 +24,6 @@ module fallible_string_m
   end type
 
   interface fallible_string_t
-    module procedure from_json_element
     module procedure from_json_value
     module procedure from_fallible_string
     module procedure from_fallible_json_value
@@ -33,12 +31,6 @@ module fallible_string_m
 
   character(len=*), parameter :: MODULE_NAME = "fallible_string_m"
 contains
-  impure elemental function from_json_element(json) result(fallible_string)
-    type(json_element_t), intent(in) :: json
-    type(fallible_string_t) :: fallible_string
-
-    fallible_string = fallible_string_t(fallible_string_t(json%json), module_t(MODULE_NAME), procedure_t("from_json_element"))
-  end function
 
   function from_json_value(json) result(fallible_string)
     class(json_value_t), intent(in) :: json

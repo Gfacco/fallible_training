@@ -22,9 +22,6 @@ contains
         "fails if the json input is invalid json", &
         check_invalid_json) &
     , it( &
-        "fails if the json input is invalid json", &
-        check_invalid_json) &
-    , it( &
         "fails if the 'name' key is missing, or misspelled", &
         check_missing_name_key) &
     , it( &
@@ -79,7 +76,7 @@ contains
     type(error_list_t) :: errors
     character(len=*), parameter :: person = &
        '{                                       ' // NEWLINE &
-    // '    "nme" : 2.0            ' // NEWLINE &
+    // '    "name" : 2.0            ' // NEWLINE &
     // '}                                       '
 
     maybe_person = fallible_person_t(parse_json_from_string(person))
