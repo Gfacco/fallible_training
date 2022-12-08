@@ -1,5 +1,5 @@
 module fallible_string_m  
-  use erloff, only: error_list_t, fatal_t, module_t, procedure_t
+  use erloff, only: error_list_t, fatal_t, module_t, procedure_t, unknown_type
   use iso_varying_string, only: varying_string, assignment(=)
   use rojff, only: &
       fallible_json_value_t, &
@@ -40,7 +40,7 @@ contains
     type is (json_string_t)
       fallible_string%var_string_ = json%string
     class default
-      fallible_string%errors_ = error_list_t(fatal_t( &
+      fallible_string%errors_ = error_list_t(fatal_t(unknown_type, &
           module_t(MODULE_NAME), &
           procedure_t("from_json_value"), &
           json%to_compact_string() // " was not an json_string_t."))
