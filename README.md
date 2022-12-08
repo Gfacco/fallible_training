@@ -1,2 +1,2 @@
 # fallible_training
-My cool new project!
+A project for introducing the fallible type pattern
