@@ -1,0 +1,26 @@
+name = "fallible_training"
+version = "0.1.0"
+license = "license"
+author = "gfacco"
+maintainer = "gfaccou@archaeologic.codes"
+copyright = "Copyright 2022, gfacco"
+[build]
+auto-executables = true
+auto-tests = true
+auto-examples = true
+[install]
+library = false
+
+[dependencies]
+iso_varying_string = { git = "https://gitlab.com/everythingfunctional/iso_varying_string.git", tag = "v3.0.4" }
+erloff = { git = "https://gitlab.com/everythingfunctional/erloff.git", tag = "v2.2.0" }
+rojff = { git = "https://gitlab.com/everythingfunctional/rojff.git", tag = "v1.0.0" }
+
+
+
+[dev-dependencies]
+veggies = { git = "https://gitlab.com/everythingfunctional/veggies.git" }
+strff = { git = "https://gitlab.com/everythingfunctional/strff.git", tag = "v4.0.0" }
+
+
+
