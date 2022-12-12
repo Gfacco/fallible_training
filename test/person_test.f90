@@ -32,6 +32,9 @@ contains
     , it( &
         "fails if the 'location' key is missing, or misspelled", &
         check_missing_location_key) &
+    , it( &
+        "fails if the 'location' value is not a string", &
+        check_invalid_location_string) &
     ])
   end function
 
@@ -119,6 +122,25 @@ contains
         "expected an error of type 'NOT_FOUND' with string 'location.'")
     else
       result_ = fail("Should have gotten and error.")
+    end if
+  end function
+  function check_invalid_location_string() result(result_)
+    type(result_t) :: result_
+    type(fallible_person_t) :: maybe_person
+    type(error_list_t) :: errors
+    character(len=*), parameter :: person_location_not_string = &
+       '{                                       ' // NEWLINE &
+    // '    "name" : "Giovanni",           ' // NEWLINE &
+    // '    "location" : 2.0           ' // NEWLINE &
+    // '}                                       '
+
+    maybe_person = fallible_person_t(parse_json_from_string(person_location_not_string))
+    errors = maybe_person%errors()
+    if (maybe_person%failed()) then
+    result_ = assert_that((errors.ofType.unknown_type).hasAnyIncluding.'json_string_t', errors%to_string(), &
+      "expected an error of type 'unknown_type' with string 'json_string_t.'")
+    else 
+      result_ = fail("Should have gotten an error.")
     end if
   end function
 
