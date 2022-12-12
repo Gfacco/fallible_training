@@ -1,5 +1,5 @@
 module person_test
-  use veggies, only: result_t, test_item_t, describe, it, succeed, fail, assert_that
+  use veggies, only: result_t, test_item_t, describe, it, succeed, fail, assert_that, assert_equals
   use fallible_person_m, only: fallible_person_t
   use person_m, only: person_t
   use erloff, only: error_list_t, NOT_FOUND, unknown_type
@@ -42,7 +42,8 @@ contains
     type(error_list_t) :: errors
     character(len=*), parameter :: person_valid = &
        '{                                       ' // NEWLINE &
-    // '    "name" : "Giovanni"             ' // NEWLINE &
+    // '    "name" : "Giovanni",             ' // NEWLINE &
+    // '    "location" : "San Diego"             ' // NEWLINE &
     // '}                                       '
 
     maybe_person = fallible_person_t(parse_json_from_string(person_valid))
@@ -51,7 +52,8 @@ contains
       result_ = fail(errors%to_string())
     else
       person = maybe_person%person()
-      result_ = assert_that(person%name() == var_str("Giovanni"), "Shold have returned the name 'Giovanni'")
+      result_ = assert_equals(person%name(), var_str("Giovanni"), "Shold have returned the name 'Giovanni'") &
+        .and.assert_equals(person%location(), var_str("San Diego"), "Shold have returned the location 'San Diego'")
     end if
   end function
   function check_invalid_json() result(result_)

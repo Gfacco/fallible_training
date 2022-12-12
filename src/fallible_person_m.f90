@@ -55,15 +55,18 @@ function from_json_object(json_object) result(fallible_person)
   type(fallible_person_t) :: fallible_person
   character(len=*), parameter :: PROCEDURE_NAME = "from_json_object"
 
-  type(fallible_string_t) :: maybe_name
+  type(fallible_string_t) :: maybe_name, maybe_location
   maybe_name = fallible_string_t(json_object%get("name"))
+  maybe_location = fallible_string_t(json_object%get("location"))
 
   if (any( &
       [ maybe_name%failed() &
+      , maybe_location%failed() &
       ])) then
 
     fallible_person%errors_ = error_list_t( &
       [ maybe_name%errors() &
+      , maybe_location%errors() &
       ,  error_list_t(fatal_t( &
         module_t(MODULE_NAME), &
         procedure_t(PROCEDURE_NAME), &
@@ -74,7 +77,8 @@ function from_json_object(json_object) result(fallible_person)
       )
   else
     fallible_person%person_ = person_t( &
-            name = maybe_name%var_string())
+            name = maybe_name%var_string(), &
+            location = maybe_location%var_string())
   end if
 
 end function
