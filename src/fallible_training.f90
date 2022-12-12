@@ -24,7 +24,8 @@ contains
       call put_line(error_unit, errors%to_string())
     else
       person = maybe_person%person()
-      call put_line("Hello, " // person%name())
+      call put_line("Hello " // person%name() //"!")
+      call put_line("What's the weather like in " // person%location() // "?")
     end if
   end subroutine say_hello
 end module fallible_training
