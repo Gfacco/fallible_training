@@ -1,5 +1,5 @@
 module person_test
-  use veggies, only: result_t, test_item_t, describe, it, succeed, fail, assert_that
+  use veggies, only: result_t, test_item_t, describe, it, succeed, fail, assert_that, assert_equals
   use fallible_person_m, only: fallible_person_t
   use person_m, only: person_t
   use erloff, only: error_list_t, NOT_FOUND, unknown_type
@@ -48,7 +48,8 @@ contains
       result_ = fail(errors%to_string())
     else
       person = maybe_person%person()
-      result_ = assert_that(person%name() == var_str("Giovanni"), "Shold have returned the name 'Giovanni'")
+      person = maybe_person%person()
+      result_ = assert_equals(person%name(), var_str("Giovanni"), "Shold have returned the name 'Giovanni'")
     end if
   end function
   function check_invalid_json() result(result_)
